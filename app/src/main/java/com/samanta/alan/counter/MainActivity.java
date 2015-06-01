@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-public class MainActivity extends ActionBarActivity implements CounterFragment.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements CounterFragment.OnFragmentInteractionListener, CreateCounterDialog.CounterCreator {
 
     int counterid;
 
@@ -53,7 +53,8 @@ public class MainActivity extends ActionBarActivity implements CounterFragment.O
     }
 
     public void addCounter(View v){
-
+        CreateCounterDialog createCounterDialog = new CreateCounterDialog();
+        createCounterDialog.show(getSupportFragmentManager(), "addCounter");
     }
 
     @Override
