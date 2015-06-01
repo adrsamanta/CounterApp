@@ -113,6 +113,9 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
         v.findViewById(R.id.increment_Btn).setOnClickListener(this);
         v.findViewById(R.id.close_btn).setOnClickListener(this);
 
+        TextView titleView = (TextView) v.findViewById(R.id.title_text_view);
+        titleView.setText(title);
+
         return v;
     }
 
