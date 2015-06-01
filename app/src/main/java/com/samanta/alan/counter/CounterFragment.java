@@ -36,7 +36,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     // TODO: Rename and change types of parameters
-    private int count;
+    private Counter myCount;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,7 +59,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
     }
 
     public CounterFragment() {
-        count=0;
+        myCount=new Counter();
         // Required empty public constructor
     }
 
@@ -78,7 +78,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
 
         //find textfield, set to counter value
         EditText field= (EditText) v.findViewById(R.id.counter_Field);
-        field.setText(Integer.toString(count));
+        field.setText(Integer.toString(myCount.getCount()));
         //attach text changed listener to field
         field.addTextChangedListener(new countChangedListener());
 
@@ -111,13 +111,13 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
 
     public void decrement(){
         Log.d("CounterFrag", "Decremented Count");
-        --count;
+        myCount.decrement();
         updateFieldFromCount();
     }
 
     public void increment(){
         Log.d("CounterFrag", "Incremented Count");
-        ++count;
+        myCount.increment();
         updateFieldFromCount();
     }
 
@@ -137,7 +137,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
             Log.d("CounterFrag", "Count Changed Listener Fired");
             try{
                 int newCount=Integer.parseInt(s.toString());
-                count=newCount;
+                myCount.setCount(newCount);
             }
             catch (NumberFormatException e){
                 Log.e("CounterFrag", "NumberFormatException");
@@ -149,7 +149,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
 
     private void updateFieldFromCount(){
         EditText field= (EditText) getView().findViewById(R.id.counter_Field);
-        field.setText(Integer.toString(count));
+        field.setText(Integer.toString(myCount.getCount()));
     }
 
     public void close(){

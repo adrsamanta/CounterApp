@@ -63,7 +63,7 @@ public class MainActivity extends ActionBarActivity implements CounterFragment.O
     }
 
     private void newCounter(){
-        Log.d("MainActivity", "Adding New Counter");
+        Log.d("MainActivity", "Adding New com.samanta.alan.counter.Counter");
         FragmentTransaction addCount = getSupportFragmentManager().beginTransaction();
         FrameLayout fl = new FrameLayout(this);
         fl.setId(counterid);
