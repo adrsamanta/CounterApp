@@ -42,14 +42,16 @@ public class CreateCounterDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setView(getActivity().getLayoutInflater().inflate(
-                R.layout.create_counter, null));
+        final View myView = getActivity().getLayoutInflater().inflate(
+                R.layout.create_counter, null);
+        builder.setView(myView);
+
         builder.setPositiveButton(R.string.create_counter,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        EditText titleBox = (EditText) getView().findViewById(R.id.title_Text);
-                        NumberPicker sv= (NumberPicker) getView().findViewById(R.id.start_Val_Picker);
+                        EditText titleBox = (EditText) myView.findViewById(R.id.title_Text);
+                        NumberPicker sv= (NumberPicker) myView.findViewById(R.id.start_Val_Picker);
                         myCC.newCounter(titleBox.getText().toString(), sv.getValue());
                     }
                 });
