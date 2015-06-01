@@ -12,12 +12,6 @@
         android:layout_weight="0.80"
         android:id="@+id/counter_layout">
 
-        <fragment
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:name="com.samanta.alan.counter.CounterFragment"
-            android:id="@+id/fragment"
-            android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
     <FrameLayout

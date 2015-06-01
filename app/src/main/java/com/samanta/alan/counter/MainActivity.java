@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.app.Fragment;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 public class MainActivity extends ActionBarActivity implements CounterFragment.OnFragmentInteractionListener {
 
@@ -70,5 +71,7 @@ public class MainActivity extends ActionBarActivity implements CounterFragment.O
                 "counter"+Integer.toString(counterid));
         ++counterid;
         addCount.commit();
+        LinearLayout counterLayout = (LinearLayout) findViewById(R.id.counter_layout);
+        counterLayout.addView(fl);
     }
 }
