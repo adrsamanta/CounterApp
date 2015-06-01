@@ -18,7 +18,9 @@
             android:layout_weight="1"
             android:inputType="number"
             android:digits="@string/digits"
-            android:numeric="signed|integer" />
+            android:numeric="signed|integer"
+            android:imeOptions="actionDone"
+           />
 
         <Button android:id="@+id/increment_Btn"
             android:layout_width="0dp"

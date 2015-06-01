@@ -11,5 +11,6 @@
     <string name="digits">0123456789</string>
     <string name="X">X</string>
     <string name="add_Counter">Add Counter</string>
+    <string name="set">Set</string>
 
 </resources>

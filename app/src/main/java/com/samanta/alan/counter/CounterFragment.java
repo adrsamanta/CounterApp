@@ -7,10 +7,13 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 /**
@@ -48,7 +51,6 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
      * @param param2 Parameter 2.
      * @return A new instance of fragment CounterFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static CounterFragment newInstance(String param1, String param2) {
         CounterFragment fragment = new CounterFragment();
 //        Bundle args = new Bundle();
@@ -79,8 +81,38 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
         //find textfield, set to counter value
         EditText field= (EditText) v.findViewById(R.id.counter_Field);
         field.setText(Integer.toString(myCount.getCount()));
+
         //attach text changed listener to field
-        field.addTextChangedListener(new countChangedListener());
+        field.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                Log.d("CounterFrag", "Listener fired, unknown event");
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    Log.d("CounterFrag", "Correct ime event");
+                    try{
+                        int newCount=Integer.parseInt(v.getText().toString());
+                        myCount.setCount(newCount);
+                    }
+                    catch (NumberFormatException e) {
+                        Log.e("CounterFrag", "NumberFormatException");
+                        //Eek....
+                        //?
+                    }
+
+                    handled=true;
+                }
+                else{
+                    Log.e("CounterFrag", "Incorrect ime event");
+                    Log.i("CounterFrag", "IME event: "+actionId);
+                    if (event==null){
+                        Log.e("CounterFrag", "event not triggered by an enter key");
+                    }
+                }
+                return handled;
+            }
+        });
+
 
         //add this as listener to all buttons
         v.findViewById(R.id.decrement_Btn).setOnClickListener(this);
@@ -119,32 +151,6 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
         Log.d("CounterFrag", "Incremented Count");
         myCount.increment();
         updateFieldFromCount();
-    }
-
-    private class countChangedListener implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            Log.d("CounterFrag", "Count Changed Listener Fired");
-            try{
-                int newCount=Integer.parseInt(s.toString());
-                myCount.setCount(newCount);
-            }
-            catch (NumberFormatException e){
-                Log.e("CounterFrag", "NumberFormatException");
-                //Eek....
-                //?
-            }
-        }
     }
 
     private void updateFieldFromCount(){
