@@ -12,5 +12,11 @@
     <string name="X">X</string>
     <string name="add_Counter">Add Counter</string>
     <string name="set">Set</string>
+    <string name="set_title">Set Title</string>
+    <string name="title">Title</string>
+    <string name="set_start_val">Set Starting Value</string>
+    <string name="create_counter">Create</string>
+    <string name="cancel">Cancel</string>
+
 
 </resources>

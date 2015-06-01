@@ -17,58 +17,52 @@ import android.widget.TextView;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CounterFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CounterFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * fragment that contains a simple counter
+ * implements OnClickListener to accept clicks on it's component buttons
  */
 public class CounterFragment extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.decrement_Btn: decrement(); break;
-            case R.id.increment_Btn: increment(); break;
-            case R.id.close_btn: close(); break;
-            default: Log.e("CounterFrag", "Unknown item clicked");
-        }
-    }
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static String TITLE="TITLE";
+    private static String STARTVAL="START_VAL";
 
-    // TODO: Rename and change types of parameters
+    //the counter backing this fragment
     private Counter myCount;
+    //title of this counter
+    private String title;
 
+
+    //container of this fragment
     private OnFragmentInteractionListener mListener;
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CounterFragment.
+     * Factory method to create new CounterFragment
+     * @return
      */
-    public static CounterFragment newInstance(String param1, String param2) {
+    public static CounterFragment newInstance(int start_val, String title) {
         CounterFragment fragment = new CounterFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
+        Bundle args = new Bundle();
+        args.putString(TITLE, title);
+        args.putString(STARTVAL, ""+start_val);
+        fragment.setArguments(args);
         return fragment;
     }
 
+    //creates a simple counter fragment with counter initiallized to 0
     public CounterFragment() {
         myCount=new Counter();
-        // Required empty public constructor
+        title="";
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d("CounterFrag", "Creating CounterFrag");
         super.onCreate(savedInstanceState);
+        Bundle args=getArguments();
+        this.title=(String) args.get(TITLE);
+        this.myCount=new Counter(Integer.parseInt((String) args.get(STARTVAL)));
 
     }
 
@@ -136,28 +130,50 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.decrement_Btn: decrement(); break;
+            case R.id.increment_Btn: increment(); break;
+            case R.id.close_btn: close(); break;
+            default: Log.e("CounterFrag", "Unknown item clicked");
+        }
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * decrements the counter
+     */
     public void decrement(){
         Log.d("CounterFrag", "Decremented Count");
         myCount.decrement();
         updateFieldFromCount();
     }
 
+    /**
+     * increments the counter
+     */
     public void increment(){
         Log.d("CounterFrag", "Incremented Count");
         myCount.increment();
         updateFieldFromCount();
     }
 
+    /**
+     * updates the textfield from the current value of the counter
+     */
     private void updateFieldFromCount(){
         EditText field= (EditText) getView().findViewById(R.id.counter_Field);
         field.setText(Integer.toString(myCount.getCount()));
     }
 
+    /**
+     * closes this fragment by calling the close method on mListener
+     */
     public void close(){
         mListener.closeThis(this);
     }
@@ -173,7 +189,6 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void closeThis(CounterFragment toClose);
     }
 

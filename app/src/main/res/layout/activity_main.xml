@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="@string/add_Counter"
             android:id="@+id/addCounterButton"
-            android:onClick="newCounter"
+            android:onClick="addCounter"
             android:layout_gravity="center_horizontal" />
     </FrameLayout>
 

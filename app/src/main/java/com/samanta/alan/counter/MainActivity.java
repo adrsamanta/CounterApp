@@ -1,6 +1,7 @@
 package com.samanta.alan.counter;
 
 //import android.app.FragmentTransaction;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -25,7 +26,7 @@ public class MainActivity extends ActionBarActivity implements CounterFragment.O
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        newCounter();
+        findViewById(R.id.addCounterButton).performClick();
     }
 
 
@@ -51,23 +52,33 @@ public class MainActivity extends ActionBarActivity implements CounterFragment.O
         return super.onOptionsItemSelected(item);
     }
 
+    public void addCounter(View v){
+
+    }
+
     @Override
     public void closeThis(CounterFragment toClose) {
         Log.d("MainActivity", "Closing CounterFragment");
         getSupportFragmentManager().beginTransaction().detach(toClose).commit();
     }
 
-    public void newCounter(View view){
+    public void newCounter(){
        Log.d("MainActivity", "newCounter method");
-        newCounter();
+        newCounter(new CounterFragment());
     }
 
-    private void newCounter(){
+    public void newCounter(String title, int startVal){
+        Log.d("MainActivity", "newCounter method [dialog version]");
+        newCounter(CounterFragment.newInstance(startVal, title));
+    }
+
+
+    private void newCounter(CounterFragment cf){
         Log.d("MainActivity", "Adding New com.samanta.alan.counter.Counter");
         FragmentTransaction addCount = getSupportFragmentManager().beginTransaction();
         FrameLayout fl = new FrameLayout(this);
         fl.setId(counterid);
-        addCount.add(fl.getId(), new CounterFragment(),
+        addCount.add(fl.getId(),cf,
                 "counter"+Integer.toString(counterid));
         ++counterid;
         addCount.commit();
