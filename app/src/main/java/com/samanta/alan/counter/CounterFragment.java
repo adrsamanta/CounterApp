@@ -21,8 +21,18 @@ import android.widget.EditText;
  * Use the {@link CounterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CounterFragment extends Fragment {
+public class CounterFragment extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.decrement_Btn: decrement(); break;
+            case R.id.increment_Btn: increment(); break;
+            case R.id.close_btn: close(); break;
+            default: Log.e("CounterFrag", "Unknown item clicked");
+        }
+    }
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     // TODO: Rename and change types of parameters
@@ -58,7 +68,6 @@ public class CounterFragment extends Fragment {
         Log.d("CounterFrag", "Creating CounterFrag");
         super.onCreate(savedInstanceState);
 
-
     }
 
     @Override
@@ -72,6 +81,12 @@ public class CounterFragment extends Fragment {
         field.setText(Integer.toString(count));
         //attach text changed listener to field
         field.addTextChangedListener(new countChangedListener());
+
+        //add this as listener to all buttons
+        v.findViewById(R.id.decrement_Btn).setOnClickListener(this);
+        v.findViewById(R.id.increment_Btn).setOnClickListener(this);
+        v.findViewById(R.id.close_btn).setOnClickListener(this);
+
         return v;
     }
 
@@ -94,13 +109,13 @@ public class CounterFragment extends Fragment {
         mListener = null;
     }
 
-    public void decrement(View view){
+    public void decrement(){
         Log.d("CounterFrag", "Decremented Count");
         --count;
         updateFieldFromCount();
     }
 
-    public void increment(View view){
+    public void increment(){
         Log.d("CounterFrag", "Incremented Count");
         ++count;
         updateFieldFromCount();
@@ -137,7 +152,7 @@ public class CounterFragment extends Fragment {
         field.setText(Integer.toString(count));
     }
 
-    public void close(View view){
+    public void close(){
         mListener.closeThis(this);
     }
 

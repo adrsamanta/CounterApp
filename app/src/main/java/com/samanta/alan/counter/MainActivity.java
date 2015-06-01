@@ -9,11 +9,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.app.Fragment;
 import android.view.View;
+import android.widget.FrameLayout;
 
 public class MainActivity extends ActionBarActivity implements CounterFragment.OnFragmentInteractionListener {
 
+    int counterid;
+
+    public MainActivity(){
+        counterid=0;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         newCounter();
@@ -56,7 +64,11 @@ public class MainActivity extends ActionBarActivity implements CounterFragment.O
     private void newCounter(){
         Log.d("MainActivity", "Adding New Counter");
         FragmentTransaction addCount = getSupportFragmentManager().beginTransaction();
-        addCount.add(R.id.counter_layout, new CounterFragment());
+        FrameLayout fl = new FrameLayout(this);
+        fl.setId(counterid);
+        addCount.add(fl.getId(), new CounterFragment(),
+                "counter"+Integer.toString(counterid));
+        ++counterid;
         addCount.commit();
     }
 }

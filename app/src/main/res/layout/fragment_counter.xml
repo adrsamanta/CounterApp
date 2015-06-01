@@ -4,11 +4,11 @@
     android:orientation="horizontal">
 
 
-        <Button
+        <Button android:id="@+id/decrement_Btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/minus"
-            android:onClick="decrement"
+
             android:paddingLeft="0dp"
             android:layout_weight="1" />
 
@@ -20,11 +20,11 @@
             android:digits="@string/digits"
             android:numeric="signed|integer" />
 
-        <Button
+        <Button android:id="@+id/increment_Btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/plus"
-            android:onClick="increment"
+
             android:layout_weight="1" />
 
     <Button
@@ -33,6 +33,6 @@
         android:layout_height="wrap_content"
         android:text="@string/X"
         android:id="@+id/close_btn"
-        android:onClick="close"/>
+        />
 
 </LinearLayout>
