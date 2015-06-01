@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.samanta.alan.counter.CounterFragment"
+    android:orientation="horizontal">
+
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/minus"
+            android:onClick="decrement"
+            android:paddingLeft="0dp"
+            android:layout_weight="1" />
+
+        <EditText android:id="@+id/counter_Field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="number"
+            android:digits="@string/digits"
+            android:numeric="signed|integer" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/plus"
+            android:onClick="increment"
+            android:layout_weight="1" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/X"
+        android:id="@+id/close_btn"
+        android:onClick="close"/>
+
+</LinearLayout>

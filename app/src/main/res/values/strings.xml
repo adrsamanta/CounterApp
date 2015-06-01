@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Counter</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="counter_heading">Counters: </string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="digits">0123456789</string>
+    <string name="X">X</string>
+    <string name="add_Counter">Add Counter</string>
+
+</resources>
