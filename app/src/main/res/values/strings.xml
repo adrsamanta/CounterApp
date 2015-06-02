@@ -17,6 +17,7 @@
     <string name="set_start_val">Set Starting Value</string>
     <string name="create_counter">Create</string>
     <string name="cancel">Cancel</string>
+    <string name="negative">Negative</string>
 
 
 </resources>
