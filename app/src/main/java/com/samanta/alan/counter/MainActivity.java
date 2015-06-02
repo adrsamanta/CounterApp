@@ -26,6 +26,7 @@ public class MainActivity extends ActionBarActivity implements CounterFragment.O
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        newCounter();
         findViewById(R.id.addCounterButton).performClick();
     }
 

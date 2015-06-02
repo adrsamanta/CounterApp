@@ -1,17 +1,16 @@
 package com.samanta.alan.counter;
 
 import android.app.Activity;
-import android.net.Uri;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -20,11 +19,13 @@ import android.widget.TextView;
  * fragment that contains a simple counter
  * implements OnClickListener to accept clicks on it's component buttons
  */
-public class CounterFragment extends Fragment implements View.OnClickListener{
+public class CounterFragment extends Fragment implements View.OnClickListener, View.OnFocusChangeListener{
     // TODO: Rename parameter arguments, choose names that match
 
-    private static String TITLE="TITLE";
-    private static String STARTVAL="START_VAL";
+    private static final String TITLE="TITLE";
+    private static final String STARTVAL="START_VAL";
+    private static final String classTag = "CounterFrag";
+
 
     //the counter backing this fragment
     private Counter myCount;
@@ -34,6 +35,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
 
     //container of this fragment
     private OnFragmentInteractionListener mListener;
+
 
     /**
      * Factory method to create new CounterFragment
@@ -58,12 +60,13 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d("CounterFrag", "Creating CounterFrag");
+        Log.d(classTag, "Creating CounterFrag");
         super.onCreate(savedInstanceState);
         Bundle args=getArguments();
-        this.title=(String) args.get(TITLE);
-        this.myCount=new Counter(Integer.parseInt((String) args.get(STARTVAL)));
-
+        if (args!=null) {
+            this.title = (String) args.get(TITLE);
+            this.myCount = new Counter(Integer.parseInt((String) args.get(STARTVAL)));
+        }
     }
 
     @Override
@@ -75,32 +78,25 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
         //find textfield, set to counter value
         EditText field= (EditText) v.findViewById(R.id.counter_Field);
         field.setText(Integer.toString(myCount.getCount()));
-
+        field.setOnFocusChangeListener(this);
         //attach text changed listener to field
         field.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            public boolean onEditorAction(TextView tv, int actionId, KeyEvent event) {
                 boolean handled = false;
-                Log.d("CounterFrag", "Listener fired, unknown event");
+                Log.d(classTag, "Listener fired, unknown event");
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    Log.d("CounterFrag", "Correct ime event");
-                    try{
-                        int newCount=Integer.parseInt(v.getText().toString());
-                        myCount.setCount(newCount);
+                    Log.d(classTag, "Correct ime event");
+                    if (!setCount(tv.getText().toString())){
+                        Log.e(classTag, "Failed to properly set count");
                     }
-                    catch (NumberFormatException e) {
-                        Log.e("CounterFrag", "NumberFormatException");
-                        //Eek....
-                        //?
-                    }
-
                     handled=true;
                 }
                 else{
-                    Log.e("CounterFrag", "Incorrect ime event");
-                    Log.i("CounterFrag", "IME event: "+actionId);
+                    Log.e(classTag, "Incorrect ime event");
+                    Log.i(classTag, "IME event: "+actionId);
                     if (event==null){
-                        Log.e("CounterFrag", "event not triggered by an enter key");
+                        Log.e(classTag, "event not triggered by an enter key");
                     }
                 }
                 return handled;
@@ -119,6 +115,19 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
         return v;
     }
 
+    private boolean setCount(String newVal){
+        try{
+            int newCount=Integer.parseInt(newVal);
+            myCount.setCount(newCount);
+            return true;
+        }
+        catch (NumberFormatException e) {
+            Log.e(classTag, "NumberFormatException");
+            //Eek....
+            //?
+            return false;
+        }
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -126,7 +135,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
         try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
-            Log.e("CounterFrag", "Couldn't case main activity to OnFragmentInteractionListener");
+            Log.e(classTag, "Couldn't case main activity to OnFragmentInteractionListener");
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
         }
@@ -138,7 +147,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
             case R.id.decrement_Btn: decrement(); break;
             case R.id.increment_Btn: increment(); break;
             case R.id.close_btn: close(); break;
-            default: Log.e("CounterFrag", "Unknown item clicked");
+            default: Log.e(classTag, "Unknown item clicked");
         }
     }
 
@@ -152,7 +161,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
      * decrements the counter
      */
     public void decrement(){
-        Log.d("CounterFrag", "Decremented Count");
+        Log.d(classTag, "Decremented Count");
         myCount.decrement();
         updateFieldFromCount();
     }
@@ -161,7 +170,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
      * increments the counter
      */
     public void increment(){
-        Log.d("CounterFrag", "Incremented Count");
+        Log.d(classTag, "Incremented Count");
         myCount.increment();
         updateFieldFromCount();
     }
@@ -179,6 +188,21 @@ public class CounterFragment extends Fragment implements View.OnClickListener{
      */
     public void close(){
         mListener.closeThis(this);
+    }
+
+    //designed to detect if TextView
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        Log.d(classTag, "FocusChanged");
+        if(!hasFocus){
+            EditText editText = (EditText) v;
+            setCount(editText.getText().toString());
+            InputMethodManager imm =
+                    (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        }
+        if(hasFocus){
+            Log.d(classTag, "Gained Focus");
+        }
     }
 
     /**
