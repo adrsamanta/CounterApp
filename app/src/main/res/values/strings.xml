@@ -18,6 +18,6 @@
     <string name="create_counter">Create</string>
     <string name="cancel">Cancel</string>
     <string name="negative">Negative</string>
-
+    <string name="close_all_timers">Close All</string>
 
 </resources>

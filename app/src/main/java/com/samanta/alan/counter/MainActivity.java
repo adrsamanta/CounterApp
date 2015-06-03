@@ -13,17 +13,22 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+
 public class MainActivity extends ActionBarActivity implements CounterFragment.OnFragmentInteractionListener, CreateCounterDialog.CounterCreator {
 
-    int counterid;
+    private int counterid;
+	private List<CounterFragment> myCounters;
 
     public MainActivity(){
         counterid=0;
+		myCounters=new LinkedList<>();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         newCounter();
@@ -62,6 +67,7 @@ public class MainActivity extends ActionBarActivity implements CounterFragment.O
     public void closeThis(CounterFragment toClose) {
         Log.d("MainActivity", "Closing CounterFragment");
         getSupportFragmentManager().beginTransaction().detach(toClose).commit();
+		myCounters.remove(toClose);
     }
 
     public void newCounter(){
@@ -86,5 +92,13 @@ public class MainActivity extends ActionBarActivity implements CounterFragment.O
         addCount.commit();
         LinearLayout counterLayout = (LinearLayout) findViewById(R.id.counter_layout);
         counterLayout.addView(fl);
+		myCounters.add(cf);
     }
+
+	public void closeAll(MenuItem menuItem){
+		while (!myCounters.isEmpty()){
+			closeThis(myCounters.get(0));
+		}
+	}
+
 }
