@@ -5,4 +5,12 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="LabelFont">
+        <item name="android:textColor">#00003B</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">10sp</item>
+    </style>
+
+
 </resources>
