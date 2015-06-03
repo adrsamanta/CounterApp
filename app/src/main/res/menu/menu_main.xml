@@ -4,7 +4,7 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/close_all" android:title="@string/close_all_timers"
-          app:showAsAction="ifRoom" android:icon="@drawable/close_btn"
+          app:showAsAction="ifRoom" android:icon="@drawable/close_btn2"
           android:onClick="closeAll"></item>
 
 </menu>
